@@ -1,0 +1,22 @@
+version: '3.8'
+
+services:
+  postgresDB:
+    image: postgres
+    environment:
+      DATABASE_HOST: 127.0.0.1
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASS}
+      POSTGRES_DB: ${POSTGRES_DB}
+    ports:
+      - "5432:5432"
+      
+  pgadmin:
+    image: dpage/pgadmin4
+    environment:
+      PGADMIN_DEFAULT_EMAIL: ${PGADMIN_EMAIL}
+      PGADMIN_DEFAULT_PASSWORD: ${PGADMIN_PASS}
+    ports:
+      - "80:80"
+    depends_on:
+      - postgresDB
