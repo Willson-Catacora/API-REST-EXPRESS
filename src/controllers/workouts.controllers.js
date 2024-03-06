@@ -9,7 +9,7 @@ const getAllWorkouts = async (req, res) => {
       .status(error?.status || 500)
       .send({ status: "FAILED", data: { error: error?.message || error } });
   }
-}
+};
 const getOneWorkout = async (req, res) => {
   const {
     params: { id },
@@ -19,19 +19,26 @@ const getOneWorkout = async (req, res) => {
       status: "FAILED",
       data: { error: 'Paramentro ":id" no puede estat vacio.' },
     });
-    return 
+    return;
   }
   try {
-      const workout = await workoutServices.getOneWorkout(id);
-      res.status(200).json({ status: "OK", data: workout });
-    } catch (error) {
-        res.status(error?.status || 500)
-            .send({ status: "FAILED", data: { error: error?.message || error } });
-    }
-}
+    const workout = await workoutServices.getOneWorkout(id);
+    res.status(200).json({ status: "OK", data: workout });
+  } catch (error) {
+    res
+      .status(error?.status || 500)
+      .send({ status: "FAILED", data: { error: error?.message || error } });
+  }
+};
 const createWorkout = async (req, res) => {
   const { body } = req;
-  if (!body.name ||!body.mode ||!body.equipment ||!body.exercises ||!body.trainerTips) {
+  if (
+    !body.name ||
+    !body.mode ||
+    !body.equipment ||
+    !body.exercises ||
+    !body.trainerTips
+  ) {
     res.status(400).send({
       status: "FAILED",
       data: {
@@ -39,82 +46,69 @@ const createWorkout = async (req, res) => {
           "Un de los siguientes campo es vacio en body: 'name', 'mode', 'equipment', 'exercises', 'trainerTips'.",
       },
     });
-    return
-}
-const newWorkout = {
+    return;
+  }
+  const newWorkout = {
     name: body.name,
     mode: body.mode,
     equipment: body.equipment,
     exercises: body.exercises,
     trainerTips: body.trainerTips,
-};
-try {
+  };
+  try {
     const workout = await workoutServices.createWorkout(newWorkout);
     res.status(201).send({ status: "OK", data: workout });
-} catch (error) {
-    res.status(error?.status || 500)
-    .send({ status: "FAILED", data: { error: error?.message || error } });
-}
-}
+  } catch (error) {
+    res
+      .status(error?.status || 500)
+      .send({ status: "FAILED", data: { error: error?.message || error } });
+  }
+};
 const updateWorkout = async (req, res) => {
-    const {
-        body,
-        params: { id },
-    } = req;
-    if (!id) {
-        res.statu(400).send({
-            status: "FAILED",
-            data: { error: 'Paramentro ":id" no puede estat vacio.' },
-        })
-        return 
-    }
-    if (!body.name ||!body.mode ||!body.equipment ||!body.exercises ||!body.trainerTips ||!body.createdat) {
-      res.status(400).send({
-        status: "FAILED",
-        data: {
-          error:
-            "Un de los siguientes campo es vacio en body: 'name', 'mode', 'equipment', 'exercises', 'trainerTips'.",
-        },
-      });
-      return
-    }
-    const newWorkout = {
-      name: body.name,
-      mode: body.mode,
-      equipment: body.equipment,
-      exercises: body.exercises,
-      trainerTips: body.trainerTips,
-      createdAt: body.createdat
-    };
-    try {
-        const workout = await workoutServices.updateWorkout(id, newWorkout)
-        return workout
-    } catch (error) {
-        res.status(error?.status || 500)
-            .send({ status: "FAILED", data: { error: error?.message || error } })
-    }
-}
+  const {
+    body,
+    params: { id },
+  } = req;
+  if (!id) {
+    res.status(400).send({
+      status: "FAILED",
+      data: {
+        error: "Paremeter ':workoutId' can not be empty.",
+      },
+    });
+    return;
+  }
+  try {
+    const updatedWorkout = await workoutServices.updateWorkout(id, body);
+    res.send({ status: "OK", data: updatedWorkout });
+  } catch (error) {
+    res
+      .status(error?.status || 500)
+      .send({ status: "FAILED", data: { error: error?.message || error } });
+  }
+};
 const deleteWorkout = async (req, res) => {
-    const {
-        params: { id }
-    } = req
-    if(!id){
-        res.status(400).send({
-            status: "FAILED",
-            data: {
-                error: "Parametro ':id' no puede estar vacio."
-            }
-        })
-        return
-    }
-    try{
-        const workout = await workoutServices.deleteWorkout(id)
-        res.status(204).send({ status: "OK", data: workout })
-    }catch(error){
-        res.status(error?.status || 500)
-            .send({ status: 'FAILED', data: {error: error?.message || error} })
-    }
-}
+  const {
+    params: { id },
+  } = req;
+  if (!id) {
+    res.status(400).send({
+      status: "FAILED",
+      data: {
+        error: "Parametro ':id' no puede estar vacio.",
+      },
+    });
+    return;
+  }
+  try {
+    const workout = await workoutServices.deleteWorkout(id);
+    res.status(204).send({ status: "OK" });
+  } catch (error) {
+    res
+      .status(error?.status || 500)
+      .send({ status: "FAILED", data: { error: error?.message || error } });
+  }
+};
 
 module.exports = {
   getAllWorkouts,
@@ -122,4 +116,4 @@ module.exports = {
   createWorkout,
   updateWorkout,
   deleteWorkout,
-}
+};
