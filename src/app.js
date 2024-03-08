@@ -2,7 +2,6 @@ const express = require("express");
 const bodyPaser = require("body-parser");
 const apicache = require("apicache");
 const v1Router = require("./routers/v1/workouts.router");
-const { swaggerDocs: V1SwaggerDocs } = require("./routers/swagger");
 
 const env = require("dotenv");
 env.config();
@@ -21,5 +20,4 @@ app.use("/api/v1/workouts", v1Router);
 
 app.listen(port, () => {
   console.log(`Servidor escuchando en el puerto : ${port}`);
-  V1SwaggerDocs(app, port);
 });
