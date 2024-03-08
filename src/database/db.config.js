@@ -1,4 +1,5 @@
 const { Pool } = require("pg");
+const query = require('./workouts.sql')
 const env = require("dotenv");
 env.config();
 
@@ -12,8 +13,9 @@ const pool = new Pool({
 });
 
 try {
-  const result = pool.query("select now()");
-  console.log("Base de datos conectada");
+  const result = async () => { await pool.query(query); }
+  console.log(result);
+  console.log('conectado a la base de datos')
 } catch (error) {
   console.log(error);
 }
