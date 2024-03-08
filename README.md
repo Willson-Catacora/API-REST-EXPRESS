@@ -1,4 +1,4 @@
-#API - REST con JavaScript, Node.js, Express.js y Postgres 
+# API - REST con JavaScript, Node.js, Express.js y Postgres 
 
 Este repositorio tiene una API-REST realizada con Node.js y PostgreSQL la cual nos sirve para hacer un CRUD (Create, Read, Update, Delete), el cual es un ejemplo de FreeCodeCamp [Link](https://www.freecodecamp.org/news/rest-api-design-best-practices-build-a-rest-api/) pero en este repositorio implementamos la base de datos en postgresql.
 
