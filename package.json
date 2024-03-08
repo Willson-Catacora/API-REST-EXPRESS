@@ -11,6 +11,7 @@
   "author": "willson catacora",
   "license": "ISC",
   "dependencies": {
+    "apicache": "^1.6.3",
     "body-parser": "^1.20.2",
     "dotenv": "^16.4.5",
     "env-var": "^7.4.1",
